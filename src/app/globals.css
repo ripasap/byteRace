@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Dark theme background */
+body {
+  background-color: black;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+/* Center content */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #161617;
+  padding: 5px 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 60%;
+  margin-bottom: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  /* Apply font here */
+  font-weight: 700;
+  /* Ensure the text is bold */
+}
+
+.navbar a,
+.navbar button {
+  color: #aaaaaa;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  background: none;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-family: inherit;
+  /* Inherit from navbar */
+}
+
+.navbar a:hover,
+.navbar button:hover {
+  color: #ffffff;
+}
+
+/* Active state for the selected item */
+.navbar a.active,
+.navbar button.active {
+  color: #ffffff;
+}
+
+/* Main content box with equal spacing */
+.content-box {
+  display: flex;
+  font-family: 'JetBrains Mono', monospace;
+  justify-content: space-between;
+  background-color: #161617;
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.problem-description,
+.code-editor {
+  width: 48%;
+  background-color: #161617;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.problem-description h3,
+.code-editor h3 {
+  color: #aaaaaa;
+}
+
+.problem-description p,
+.code-editor p {
+  font-family: 'JetBrains Mono', monospace;
+  color: #ffffff;
+}
+
+.code-editor select {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #161617;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.code-editor button.run-btn {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #161617;
+  color: #aaaaaa;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.code-editor button.run-btn:hover {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #161617;
+  color: #ffffff;
+}
+
+/* Output box */
+.output {
+  background-color: #161617;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.output h4 {
+  color: #888888;
+}
+
+.output pre {
+  color: #ffffff;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+/* Override CodeMirror editor styles */
+.cm-editor {
+  background-color: #ffffff !important;
+  /* Set background to white */
+  color: #000000 !important;
+  /* Default text color to black */
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  /* Bold text */
+}
+
+.cm-content {
+  color: #000000 !important;
+  /* Ensures the text color is black */
+}
+
+/* Change the cursor color */
+.cm-cursor {
+  border-left: 2px solid #000000 !important;
+  /* Black cursor */
+}
+
+/* Highlight color for selected text */
+.cm-activeLine {
+  background-color: rgba(0, 0, 0, 0.1);
+  /* Subtle highlight for active line */
+}
+
+.cm-gutters {
+  background-color: #ffffff !important;
+  /* White background for line numbers */
+  color: #888888 !important;
+  /* Light gray line numbers */
+}
+
+/* Override syntax highlighting for comments, keywords, strings, etc. */
+.cm-comment {
+  color: #888888 !important;
+  /* Comments in gray */
+}
+
+.cm-keyword {
+  color: #0000ff !important;
+  /* Keywords in blue */
+}
+
+.cm-string {
+  color: #008000 !important;
+  /* Strings in green */
+}
+
+/* Global Dropdown Styles */
+
+/* Ensure the dropdown is hidden by default */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #161617;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  margin-top: 5px;
+  padding: 0;
+}
+
+/* This class will be toggled to show the dropdown */
+.show-dropdown .dropdown-content {
+  display: block;
+}
+
+/* Dropdown button styling */
+.dropdown-content button {
+  background-color: #161617;
+  color: #aaaaaa;
+  padding: 12px 16px;
+  text-align: left;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  border-bottom: 1px solid #444;
+}
+
+.dropdown-content button:hover {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in-left {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.fade-in-right {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.waiting-animation {
+  position: relative;
+  animation: waitingFade 1.5s infinite;
+}
+
+@keyframes waitingFade {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}

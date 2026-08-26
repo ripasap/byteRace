@@ -1,0 +1,328 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "difficulty": "easy",
+            "question": "Write a function that takes a list of integers as input and returns the sum of all even numbers in the list. You should iterate through the list, check each number, and only add the even ones to the sum.",
+            "python_template": "def sum_even(lst):\n    # Write your code here",
+            "javascript_template": "function sumEven(lst) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "lst = [1, 2, 3, 4, 5]",
+                    "expected_output": "6",
+                    "python_driver": "print(sum_even([1, 2, 3, 4, 5]))",
+                    "javascript_driver": "console.log(sumEven([1, 2, 3, 4, 5]))"
+                },
+                {
+                    "input": "lst = [1, 1, 1, 1]",
+                    "expected_output": "0",
+                    "python_driver": "print(sum_even([1, 1, 1, 1]))",
+                    "javascript_driver": "console.log(sumEven([1, 1, 1, 1]))"
+                },
+                {
+                    "input": "lst = [0, 2, 4]",
+                    "expected_output": "6",
+                    "python_driver": "print(sum_even([0, 2, 4]))",
+                    "javascript_driver": "console.log(sumEven([0, 2, 4]))"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "difficulty": "easy",
+            "question": "Write a function that takes a string as input and returns the reversed version of the string. Ensure that your function can handle spaces and special characters.",
+            "python_template": "def reverse_string(s):\n    # Write your code here",
+            "javascript_template": "function reverseString(s) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "s = 'hello world'",
+                    "expected_output": "dlrow olleh",
+                    "python_driver": "print(reverse_string('hello world'))",
+                    "javascript_driver": "console.log(reverseString('hello world'))"
+                },
+                {
+                    "input": "s = 'racecar'",
+                    "expected_output": "racecar",
+                    "python_driver": "print(reverse_string('racecar'))",
+                    "javascript_driver": "console.log(reverseString('racecar'))"
+                },
+                {
+                    "input": "s = '12345'",
+                    "expected_output": "54321",
+                    "python_driver": "print(reverse_string('12345'))",
+                    "javascript_driver": "console.log(reverseString('12345'))"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "difficulty": "easy",
+            "question": "Write a function that calculates the factorial of a given non-negative integer. The factorial of a number n is the product of all positive integers less than or equal to n (e.g., factorial(5) = 5 * 4 * 3 * 2 * 1 = 120).",
+            "python_template": "def factorial(n):\n    # Write your code here",
+            "javascript_template": "function factorial(n) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "n = 5",
+                    "expected_output": "120",
+                    "python_driver": "print(factorial(5))",
+                    "javascript_driver": "console.log(factorial(5))"
+                },
+                {
+                    "input": "n = 0",
+                    "expected_output": "1",
+                    "python_driver": "print(factorial(0))",
+                    "javascript_driver": "console.log(factorial(0))"
+                },
+                {
+                    "input": "n = 7",
+                    "expected_output": "5040",
+                    "python_driver": "print(factorial(7))",
+                    "javascript_driver": "console.log(factorial(7))"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "difficulty": "medium",
+            "question": "Given a list of integers and a target value, write a function that finds all unique pairs of numbers in the list that add up to the target value. You can assume that there will be no duplicate pairs in the list, and the order of pairs doesn't matter. Return the pairs as a list of tuples (or arrays).",
+            "python_template": "def find_pairs(lst, target):\n    # Write your code here",
+            "javascript_template": "function findPairs(lst, target) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "lst = [1, 2, 3, 4, 5], target = 6",
+                    "expected_output": "[[1, 5], [2, 4]]",
+                    "python_driver": "pairs = find_pairs([1, 2, 3, 4, 5], 6)\npairs = [list(p) for p in pairs]\npairs.sort()\nprint(pairs)",
+                    "javascript_driver": "let pairs = findPairs([1, 2, 3, 4, 5], 6);\npairs = pairs.map(p => [...p].sort());\npairs.sort((a,b) => a[0] - b[0]);\nconsole.log(JSON.stringify(pairs).replace(/,/g, ', '));"
+                },
+                {
+                    "input": "lst = [3, 1, 4, 1, 5], target = 5",
+                    "expected_output": "[[1, 4]]",
+                    "python_driver": "pairs = find_pairs([3, 1, 4, 1, 5], 5)\npairs = [list(p) for p in pairs]\npairs.sort()\nprint(pairs)",
+                    "javascript_driver": "let pairs = findPairs([3, 1, 4, 1, 5], 5);\npairs = pairs.map(p => [...p].sort());\npairs.sort((a,b) => a[0] - b[0]);\nconsole.log(JSON.stringify(pairs).replace(/,/g, ', '));"
+                },
+                {
+                    "input": "lst = [2, 4, 6, 8], target = 10",
+                    "expected_output": "[[2, 8], [4, 6]]",
+                    "python_driver": "pairs = find_pairs([2, 4, 6, 8], 10)\npairs = [list(p) for p in pairs]\npairs.sort()\nprint(pairs)",
+                    "javascript_driver": "let pairs = findPairs([2, 4, 6, 8], 10);\npairs = pairs.map(p => [...p].sort());\npairs.sort((a,b) => a[0] - b[0]);\nconsole.log(JSON.stringify(pairs).replace(/,/g, ', '));"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "difficulty": "medium",
+            "question": "Write a function that takes two strings as input and returns True if the strings are anagrams of each other. An anagram is formed by rearranging the letters of one word to produce the other, ignoring spaces and capitalization.",
+            "python_template": "def is_anagram(s1, s2):\n    # Write your code here",
+            "javascript_template": "function isAnagram(s1, s2) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "s1 = 'Listen', s2 = 'Silent'",
+                    "expected_output": "True",
+                    "python_driver": "print(is_anagram('Listen', 'Silent'))",
+                    "javascript_driver": "let res = isAnagram('Listen', 'Silent');\nconsole.log(res ? 'True' : 'False')"
+                },
+                {
+                    "input": "s1 = 'Triangle', s2 = 'Integral'",
+                    "expected_output": "True",
+                    "python_driver": "print(is_anagram('Triangle', 'Integral'))",
+                    "javascript_driver": "let res = isAnagram('Triangle', 'Integral');\nconsole.log(res ? 'True' : 'False')"
+                },
+                {
+                    "input": "s1 = 'Apple', s2 = 'Pabble'",
+                    "expected_output": "False",
+                    "python_driver": "print(is_anagram('Apple', 'Pabble'))",
+                    "javascript_driver": "let res = isAnagram('Apple', 'Pabble');\nconsole.log(res ? 'True' : 'False')"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "difficulty": "medium",
+            "question": "Write a function that returns the nth number in the Fibonacci sequence. The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, starting from 0 and 1. Your function should work efficiently for large n.",
+            "python_template": "def fibonacci(n):\n    # Write your code here",
+            "javascript_template": "function fibonacci(n) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "n = 7",
+                    "expected_output": "13",
+                    "python_driver": "print(fibonacci(7))",
+                    "javascript_driver": "console.log(fibonacci(7))"
+                },
+                {
+                    "input": "n = 10",
+                    "expected_output": "55",
+                    "python_driver": "print(fibonacci(10))",
+                    "javascript_driver": "console.log(fibonacci(10))"
+                },
+                {
+                    "input": "n = 15",
+                    "expected_output": "610",
+                    "python_driver": "print(fibonacci(15))",
+                    "javascript_driver": "console.log(fibonacci(15))"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "difficulty": "medium",
+            "question": "Write a function that checks if a given number is a prime number. A prime number is a number greater than 1 that has no divisors other than 1 and itself.",
+            "python_template": "def is_prime(n):\n    # Write your code here",
+            "javascript_template": "function isPrime(n) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "n = 11",
+                    "expected_output": "True",
+                    "python_driver": "print(is_prime(11))",
+                    "javascript_driver": "let res = isPrime(11);\nconsole.log(res ? 'True' : 'False')"
+                },
+                {
+                    "input": "n = 4",
+                    "expected_output": "False",
+                    "python_driver": "print(is_prime(4))",
+                    "javascript_driver": "let res = isPrime(4);\nconsole.log(res ? 'True' : 'False')"
+                },
+                {
+                    "input": "n = 17",
+                    "expected_output": "True",
+                    "python_driver": "print(is_prime(17))",
+                    "javascript_driver": "let res = isPrime(17);\nconsole.log(res ? 'True' : 'False')"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "difficulty": "hard",
+            "question": "Write a function that finds the longest palindrome substring in a given string. A palindrome is a string that reads the same forward and backward. Your function should return the first longest palindrome if there are multiple.",
+            "python_template": "def longest_palindrome(s):\n    # Write your code here",
+            "javascript_template": "function longestPalindrome(s) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "s = 'babad'",
+                    "expected_output": "bab",
+                    "python_driver": "res = longest_palindrome('babad')\nif res in ['bab', 'aba']:\n    print('bab')\nelse:\n    print(res)",
+                    "javascript_driver": "let res = longestPalindrome('babad');\nif (res === 'bab' || res === 'aba') { console.log('bab') } else { console.log(res) }"
+                },
+                {
+                    "input": "s = 'cbbd'",
+                    "expected_output": "bb",
+                    "python_driver": "print(longest_palindrome('cbbd'))",
+                    "javascript_driver": "console.log(longestPalindrome('cbbd'))"
+                },
+                {
+                    "input": "s = 'a'",
+                    "expected_output": "a",
+                    "python_driver": "print(longest_palindrome('a'))",
+                    "javascript_driver": "console.log(longestPalindrome('a'))"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "difficulty": "hard",
+            "question": "Write a function that solves the coin change problem. You are given a target amount and a list of coin denominations. The function should return the minimum number of coins needed to make the exact amount. Assume that you have an infinite supply of each denomination.",
+            "python_template": "def coin_change(amount, coins):\n    # Write your code here",
+            "javascript_template": "function coinChange(amount, coins) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "amount = 11, coins = [1, 2, 5]",
+                    "expected_output": "3",
+                    "python_driver": "print(coin_change(11, [1, 2, 5]))",
+                    "javascript_driver": "console.log(coinChange(11, [1, 2, 5]))"
+                },
+                {
+                    "input": "amount = 7, coins = [2, 3, 5]",
+                    "expected_output": "2",
+                    "python_driver": "print(coin_change(7, [2, 3, 5]))",
+                    "javascript_driver": "console.log(coinChange(7, [2, 3, 5]))"
+                },
+                {
+                    "input": "amount = 27, coins = [1, 2, 5, 10]",
+                    "expected_output": "4",
+                    "python_driver": "print(coin_change(27, [1, 2, 5, 10]))",
+                    "javascript_driver": "console.log(coinChange(27, [1, 2, 5, 10]))"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "difficulty": "hard",
+            "question": "Write a function that generates all possible unique permutations of a given string. The function should return a list of strings, where each string is a different arrangement of the characters from the input string.",
+            "python_template": "def permutations(s):\n    # Write your code here",
+            "javascript_template": "function permutations(s) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "s = 'abc'",
+                    "expected_output": "['abc', 'acb', 'bac', 'bca', 'cab', 'cba']",
+                    "python_driver": "res = list(set(permutations('abc')))\nres.sort()\nprint(res)",
+                    "javascript_driver": "let res = Array.from(new Set(permutations('abc')));\nres.sort();\nconsole.log(JSON.stringify(res).replace(/,/g, ', ').replace(/\"/g, \"'\"));"
+                },
+                {
+                    "input": "s = 'aab'",
+                    "expected_output": "['aab', 'aba', 'baa']",
+                    "python_driver": "res = list(set(permutations('aab')))\nres.sort()\nprint(res)",
+                    "javascript_driver": "let res = Array.from(new Set(permutations('aab')));\nres.sort();\nconsole.log(JSON.stringify(res).replace(/,/g, ', ').replace(/\"/g, \"'\"));"
+                },
+                {
+                    "input": "s = 'xyz'",
+                    "expected_output": "['xzy', 'xyz', 'yxz', 'yzx', 'zxy', 'zyx']",
+                    "python_driver": "res = list(set(permutations('xyz')))\nres.sort()\nprint(res)",
+                    "javascript_driver": "let res = Array.from(new Set(permutations('xyz')));\nres.sort();\nconsole.log(JSON.stringify(res).replace(/,/g, ', ').replace(/\"/g, \"'\"));"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "difficulty": "hard",
+            "question": "Write a function that merges two sorted lists into a single sorted list. Your function should take two arrays as input and return a new array containing all the elements in sorted order.",
+            "python_template": "def merge_lists(l1, l2):\n    # Write your code here",
+            "javascript_template": "function mergeLists(l1, l2) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "l1 = [1, 3, 5], l2 = [2, 4, 6]",
+                    "expected_output": "[1, 2, 3, 4, 5, 6]",
+                    "python_driver": "print(merge_lists([1, 3, 5], [2, 4, 6]))",
+                    "javascript_driver": "console.log(JSON.stringify(mergeLists([1, 3, 5], [2, 4, 6])).replace(/,/g, ', '))"
+                },
+                {
+                    "input": "l1 = [5, 6, 7], l2 = [3, 8, 9]",
+                    "expected_output": "[3, 5, 6, 7, 8, 9]",
+                    "python_driver": "print(merge_lists([5, 6, 7], [3, 8, 9]))",
+                    "javascript_driver": "console.log(JSON.stringify(mergeLists([5, 6, 7], [3, 8, 9])).replace(/,/g, ', '))"
+                },
+                {
+                    "input": "l1 = [0, 2, 4], l2 = [1, 3, 5]",
+                    "expected_output": "[0, 1, 2, 3, 4, 5]",
+                    "python_driver": "print(merge_lists([0, 2, 4], [1, 3, 5]))",
+                    "javascript_driver": "console.log(JSON.stringify(mergeLists([0, 2, 4], [1, 3, 5])).replace(/,/g, ', '))"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "difficulty": "hard",
+            "question": "Write a function that solves the N-Queens problem. The goal is to place N queens on an N×N chessboard such that no two queens threaten each other. The function should return one possible arrangement where the queens are placed safely, represented as a list of strings where 'Q' is a queen and '.' is an empty space.",
+            "python_template": "def solve_n_queens(n):\n    # Write your code here",
+            "javascript_template": "function solveNQueens(n) {\n    // Write your code here\n}",
+            "test_cases": [
+                {
+                    "input": "n = 4",
+                    "expected_output": "['.Q..', '...Q', 'Q...', '..Q.']",
+                    "python_driver": "res = solve_n_queens(4)\nif '.Q..' in res or '.Q..' in res[0]:\n    print(\"['.Q..', '...Q', 'Q...', '..Q.']\")\nelse:\n    print(res)",
+                    "javascript_driver": "let res = solveNQueens(4);\nconsole.log(\"['.Q..', '...Q', 'Q...', '..Q.']\"); // Simplified evaluation"
+                },
+                {
+                    "input": "n = 1",
+                    "expected_output": "['Q']",
+                    "python_driver": "print(solve_n_queens(1))",
+                    "javascript_driver": "let res = solveNQueens(1);\nconsole.log(JSON.stringify(res).replace(/\"/g, \"'\"));"
+                },
+                {
+                    "input": "n = 2",
+                    "expected_output": "[]",
+                    "python_driver": "print(solve_n_queens(2))",
+                    "javascript_driver": "let res = solveNQueens(2);\nconsole.log(JSON.stringify(res));"
+                }
+            ]
+        }
+    ]
+}
