@@ -7,6 +7,7 @@ export default function Document() {
             <Head>
                 {/* Load Pyodide from the official CDN */}
                 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
+                <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
             </Head>
             <body>
                 <Main />
