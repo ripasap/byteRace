@@ -232,10 +232,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
                 </select>
             </div>
 
-            <div style={{ marginTop: "10px", textAlign: 'left', flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ marginTop: "10px", textAlign: 'left', flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
                 <CodeMirror
                     value={code}
-                    height="300px"
+                    height="100%"
                     theme={theme === 'dark' ? oneDark : 'light'}
                     basicSetup={{ lineNumbers: true, foldGutter: true, highlightActiveLineGutter: true }}
                     extensions={[language === "python" ? python() : javascript()]}
@@ -243,7 +243,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
                         setCode(value);
                         console.log('Code updated: ', value);
                     }}
-                    style={{ fontSize: '0.85em', border: '1px solid rgba(128, 128, 128, 0.2)', borderRadius: '8px', overflow: 'hidden' }}
+                    style={{ flex: 1, display: 'flex', flexDirection: 'column', fontSize: '0.85em', border: '1px solid rgba(128, 128, 128, 0.2)', borderRadius: '8px', overflow: 'hidden' }}
                 />
             </div>
 

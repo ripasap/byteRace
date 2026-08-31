@@ -157,13 +157,13 @@ const PowerUpsBar: React.FC<PowerUpsBarProps> = ({ ws, roomCode, hasUsedPowerup,
             {/* PowerUp Modal */}
             {isModalOpen && selectedPowerUp && (
                 <PowerUpModal show={isModalOpen} handleClose={() => setIsModalOpen(false)}>
-                    <h2>{selectedPowerUp.name}</h2>
+                    <h1 style={{ fontSize: '1.2em' }}>{selectedPowerUp.name}</h1>
                     <p>{selectedPowerUp.description}</p>
                     <button onClick={activatePowerUp} style={{
                         backgroundColor: colors.buttonBackground,
                         color: colors.text,
                         padding: '10px 20px',
-                        border: 'none',
+                        border: '1px solid',
                         borderRadius: '5px',
                         cursor: 'pointer'
                     }}>Activate</button>

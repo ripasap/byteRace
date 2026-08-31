@@ -223,3 +223,24 @@ body {
     opacity: 0.5;
   }
 }
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink-cursor 1s step-end infinite;
+}
+
+
+/* Force CodeMirror to fill available vertical space */
+.cm-theme, .cm-editor {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.cm-scroller {
+  flex: 1 !important;
+  overflow: auto !important;
+}

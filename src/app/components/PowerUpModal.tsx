@@ -87,10 +87,10 @@ const PowerUpModal: React.FC<ModalProps> = ({ show, handleClose, children }) => 
                     line-height: 1.5;
                 }
 
-                button {
+                .modal-content :global(button) {
                     background-color: ${colors.powerUpModal.buttonBackground};  /* Modal button background */
                     color: ${colors.powerUpModal.buttonText};  /* Modal button text */
-                    border: none;
+                    border: 2px solid ${colors.powerUpModal.buttonText};
                     padding: 12px 20px;
                     border-radius: 12px;
                     cursor: pointer;
@@ -99,12 +99,12 @@ const PowerUpModal: React.FC<ModalProps> = ({ show, handleClose, children }) => 
                     transition: background-color 0.3s ease, transform 0.2s ease;
                 }
 
-                button:hover {
+                .modal-content :global(button:hover) {
                     background-color: ${colors.powerUpModal.titleGradientEnd}; /* Lighter pink on hover */
                     transform: scale(1.05);  /* Slight zoom effect */
                 }
 
-                button:active {
+                .modal-content :global(button:active) {
                     transform: scale(0.98);  /* Slight shrink on click */
                 }
 

@@ -8,6 +8,7 @@ export default function Document() {
                 {/* Load Pyodide from the official CDN */}
                 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js"></script>
                 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+                <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet" />
             </Head>
             <body>
                 <Main />

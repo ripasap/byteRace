@@ -15,6 +15,31 @@ import { ThemeContext } from '../../context/ThemeContext';  // Import ThemeConte
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
+const TypingLogo = ({ colors }: { colors: any }) => {
+    const [typedText, setTypedText] = useState("");
+
+    useEffect(() => {
+        const fullText = "code.duel";
+        let currentIndex = 0;
+        const intervalId = setInterval(() => {
+            if (currentIndex <= fullText.length) {
+                setTypedText(fullText.slice(0, currentIndex));
+                currentIndex++;
+            } else {
+                clearInterval(intervalId);
+            }
+        }, 150);
+        return () => clearInterval(intervalId);
+    }, []);
+
+    return (
+        <div style={{ fontSize: "2.5em", fontFamily: "'JetBrains Mono', monospace", color: colors.text, display: "flex", justifyContent: "center", padding: "20px", fontWeight: "bold" }}>
+            <span style={{ color: '#43A146', marginRight: '8px' }}>&gt;</span>
+            {typedText}<span className="animate-blink" style={{ color: colors.text, opacity: 0.8 }}>_</span>
+        </div>
+    );
+};
+
 interface TestCase {
     input: string;
     expected_output: string;
@@ -71,11 +96,11 @@ const Home: React.FC = () => {
     const [trashTalkMessage, setTrashTalkMessage] = useState<string | null>(null);
     const [flashOpacity, setFlashOpacity] = useState<number>(0);
     const [isSubmitBlocked, setIsSubmitBlocked] = useState<boolean>(false);
-    
+
     const [hasUsedPowerup, setHasUsedPowerup] = useState<boolean>(false);
     const [powerupNotification, setPowerupNotification] = useState<string | null>(null);
     const [showSinglePlayerWin, setShowSinglePlayerWin] = useState<boolean>(false);
-    
+
     const [hasClickedNext, setHasClickedNext] = useState<boolean>(false);
 
     const isOpponentPowerupActive = isFlashed || isSubmitBlocked || (trashTalkMessage !== null);
@@ -206,7 +231,7 @@ const Home: React.FC = () => {
                             if (line.includes('=>')) continue;
                             validLineIndices.push(i);
                         }
-                        
+
                         if (validLineIndices.length > 0) {
                             const randomIndex = validLineIndices[Math.floor(Math.random() * validLineIndices.length)];
                             lines.splice(randomIndex, 1);
@@ -297,7 +322,7 @@ const Home: React.FC = () => {
         myPlayerIndexRef.current = null;
         setMatchResult(null);
         setServerStatus('Left the room.');
-        
+
         setCurrentProblemIndex(Math.floor(Math.random() * 1000));
         setProblemSet([]);
         setIsFlashed(false);
@@ -391,7 +416,7 @@ const Home: React.FC = () => {
                         <p style={{ fontSize: '2rem', color: '#fff', marginBottom: '40px', fontWeight: 'bold' }}>
                             "{trashTalkMessage}"
                         </p>
-                        <button 
+                        <button
                             onClick={() => setTrashTalkMessage(null)}
                             style={{
                                 fontSize: '1.5rem',
@@ -447,43 +472,43 @@ const Home: React.FC = () => {
                 </>
             )}
             <div className={isFlashed ? "flash-blur" : ""} style={{ fontFamily: "JetBrains Mono", color: colors.text, backgroundColor: colors.background, minHeight: "100vh", pointerEvents: isFlashed ? 'none' : 'auto' }}>
-            {showSinglePlayerWin && mode === 'single' && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-                    <div style={{ backgroundColor: colors.cardBackground, padding: '40px', borderRadius: '15px', textAlign: 'center', minWidth: '300px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', position: 'relative' }}>
-                        <button 
-                            onClick={() => setShowSinglePlayerWin(false)}
-                            style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', color: colors.text, fontSize: '1.5em', cursor: 'pointer' }}
-                        >
-                            &times;
-                        </button>
-                        <h2 style={{ color: '#43A146', fontSize: '2.5em', marginBottom: '20px' }}>
-                            Success!
-                        </h2>
-                        <p style={{ color: colors.text, fontSize: '1.2em', marginBottom: '20px' }}>All test cases passed.</p>
-                        <button
-                            style={{
-                                width: '100%',
-                                backgroundColor: colors.buttonBackground,
-                                color: colors.buttonTextRun,
-                                padding: '15px',
-                                fontSize: '1.2em',
-                                border: 'none',
-                                borderRadius: '8px',
-                                cursor: 'pointer',
-                                marginTop: '10px'
-                            }}
-                            onClick={() => {
-                                setShowSinglePlayerWin(false);
-                                moveToNextProblem();
-                            }}
-                        >
-                            Next Question
-                        </button>
+                {showSinglePlayerWin && mode === 'single' && (
+                    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+                        <div style={{ backgroundColor: colors.cardBackground, padding: '40px', borderRadius: '15px', textAlign: 'center', minWidth: '300px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', position: 'relative' }}>
+                            <button
+                                onClick={() => setShowSinglePlayerWin(false)}
+                                style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', color: colors.text, fontSize: '1.5em', cursor: 'pointer' }}
+                            >
+                                &times;
+                            </button>
+                            <h2 style={{ color: '#43A146', fontSize: '2.5em', marginBottom: '20px' }}>
+                                Success!
+                            </h2>
+                            <p style={{ color: colors.text, fontSize: '1.2em', marginBottom: '20px' }}>All test cases passed.</p>
+                            <button
+                                style={{
+                                    width: '100%',
+                                    backgroundColor: colors.buttonBackground,
+                                    color: colors.buttonTextRun,
+                                    padding: '15px',
+                                    fontSize: '1.2em',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    marginTop: '10px'
+                                }}
+                                onClick={() => {
+                                    setShowSinglePlayerWin(false);
+                                    moveToNextProblem();
+                                }}
+                            >
+                                Next Question
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {matchResult && mode === 'multiplayer' && (
+                {matchResult && mode === 'multiplayer' && (
                     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
                         <div style={{ backgroundColor: colors.cardBackground, padding: '40px', borderRadius: '15px', textAlign: 'center', minWidth: '300px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
                             <h2 style={{ color: matchResult === 'win' ? '#43A146' : matchResult === 'lose' ? '#ff4c4c' : '#aaaaaa', fontSize: '2.5em', marginBottom: '20px' }}>
@@ -553,9 +578,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <div style={{ fontSize: "2em", display: "flex", justifyContent: "center", padding: "20px" }}>
-                    coderace.io
-                </div>
+                <TypingLogo colors={colors} />
 
                 <div style={{ width: "80%", margin: "0 auto" }}>
                     <Navbar
@@ -568,7 +591,7 @@ const Home: React.FC = () => {
                         roomCode={roomCode}
                         leaveRoom={handleLeaveRoom}
                     />
-                    
+
                     <WrappedMultipleQuestionRetriever
                         onQuestionsFetched={handleProblemFetched}
                     />
@@ -595,9 +618,9 @@ const Home: React.FC = () => {
 
                         {mode === "multiplayer" && (
                             <div style={{ padding: "0 10px" }}>
-                                <PowerUpsBar 
-                                    ws={ws} 
-                                    roomCode={roomCode} 
+                                <PowerUpsBar
+                                    ws={ws}
+                                    roomCode={roomCode}
                                     hasUsedPowerup={hasUsedPowerup}
                                     isOpponentPowerupActive={isOpponentPowerupActive}
                                     onPowerupUsed={() => setHasUsedPowerup(true)}

@@ -50,7 +50,7 @@ const Settings: React.FC = () => {
             {/* Theme Selection Section */}
             <div style={{ marginBottom: '20px' }}>
                 <label style={{ color: colors.text }}>Theme: </label>
-                <div style={{ marginTop: '10px' }}>
+                <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                     <button
                         onClick={() => handleThemeChange('light')}
                         style={{
@@ -58,7 +58,6 @@ const Settings: React.FC = () => {
                             border: 'none',
                             borderRadius: '5px',
                             cursor: 'pointer',
-                            marginRight: '10px',
                             ...(theme === 'light' ? getActiveButtonStyle('light') : getInactiveButtonStyle())
                         }}
                     >
@@ -71,7 +70,6 @@ const Settings: React.FC = () => {
                             border: 'none',
                             borderRadius: '5px',
                             cursor: 'pointer',
-                            marginRight: '10px',
                             ...(theme === 'dark' ? getActiveButtonStyle('dark') : getInactiveButtonStyle())
                         }}
                     >
