@@ -580,7 +580,7 @@ const Home: React.FC = () => {
                         {/* PlayerConnectionStatus handles all WebSocket connection logic */}
 
                         {mode === "multiplayer" && (
-                            <div style={{ padding: "0 10px", opacity: mode === 'single' ? 0.5 : 1, pointerEvents: mode === 'single' ? 'none' : 'auto' }}>
+                            <div style={{ padding: "0 10px" }}>
                                 <PowerUpsBar 
                                     ws={ws} 
                                     roomCode={roomCode} 
