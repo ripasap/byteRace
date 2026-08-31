@@ -110,7 +110,8 @@ const Home: React.FC = () => {
     };
 
     useEffect(() => {
-        const socket = new WebSocket('ws://localhost:8080');
+        const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080';
+        const socket = new WebSocket(wsUrl);
         setWs(socket);
 
         socket.onopen = () => {

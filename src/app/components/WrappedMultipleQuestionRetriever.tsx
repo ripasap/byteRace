@@ -29,7 +29,8 @@ const QuestionRetriever: React.FC<QuestionRetrieverProps> = ({ difficulty, onQue
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const baseUrl = difficulty ? `http://localhost:4000/api/questions?difficulty=${difficulty}` : `http://localhost:4000/api/questions`;
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+                const baseUrl = difficulty ? `${apiUrl}/api/questions?difficulty=${difficulty}` : `${apiUrl}/api/questions`;
                 const url = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}t=${Date.now()}`;
                 const res = await axios.get(url);
                 onQuestionsFetched(res.data);
