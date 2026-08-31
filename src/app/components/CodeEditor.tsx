@@ -20,11 +20,12 @@ interface CodeEditorProps {
     setLanguage: (language: 'python' | 'javascript') => void;
     isLoading?: boolean;
     currentProblem: {
+        id: number;
+        difficulty: string;
         question: string;
-        expected_output: string;
-        example_1: string;
-        example_2: string;
-        example_3: string;
+        python_template: string;
+        javascript_template: string;
+        test_cases: any[];
     } | null;
     setStartTimer?: (shouldStart: boolean) => void;
     moveToNextProblem: () => void;
