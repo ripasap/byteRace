@@ -7,7 +7,7 @@ const HomeButton = () => {
     const [isHovered, setIsHovered] = useState(false);
     const router = useRouter();
     const themeContext = useContext(ThemeContext);
-    const colors = themeContext ? themeContext.colors : { text: '#ffffff', buttonBackground: '#ffffff' };
+    const colors = themeContext ? themeContext.colors : { text: '#ffffff', background: '#000000', buttonBackground: '#ffffff' };
 
     return (
         <a
