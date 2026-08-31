@@ -79,8 +79,13 @@ authRouter.post('/login', async (req: Request, res: Response) => {
         username = typeof username === 'string' ? username.trim() : '';
         password = typeof password === 'string' ? password : '';
 
-        const user = await prisma.user.findUnique({
-            where: { username }
+        const user = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    { username: username },
+                    { email: username }
+                ]
+            }
         });
 
         if (!user) {
