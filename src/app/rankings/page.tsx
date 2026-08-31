@@ -22,7 +22,8 @@ const RankingsPage: React.FC = () => {
     useEffect(() => {
         const fetchLeaderboard = async () => {
             try {
-                const res = await axios.get('http://localhost:4000/api/users/leaderboard');
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+                const res = await axios.get(`${apiUrl}/api/users/leaderboard`);
                 setMainLeaderboard(res.data);
             } catch (err: any) {
                 setError(err.message || 'Failed to load leaderboard');

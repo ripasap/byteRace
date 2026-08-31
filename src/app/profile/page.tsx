@@ -32,7 +32,8 @@ const ProfilePage: React.FC = () => {
             }
 
             try {
-                const res = await axios.get("http://localhost:4000/api/users/me", {
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+                const res = await axios.get(`${apiUrl}/api/users/me`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

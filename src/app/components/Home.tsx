@@ -13,6 +13,7 @@ import PowerUpsBar from './PowerUpsBar';
 import WrappedMultipleQuestionRetriever from './WrappedMultipleQuestionRetriever';  // Import the retriever
 import { ThemeContext } from '../../context/ThemeContext';  // Import ThemeContext
 import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
 
 interface TestCase {
     input: string;
@@ -59,7 +60,12 @@ const Home: React.FC = () => {
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
     const [myPlayerIndex, setMyPlayerIndex] = useState<number | null>(null);
     const myPlayerIndexRef = useRef<number | null>(null);
+    const tokenRef = useRef<string | null>(null);
     const [matchResult, setMatchResult] = useState<"win" | "lose" | "draw" | null>(null);
+
+    useEffect(() => {
+        tokenRef.current = user ? localStorage.getItem('token') : null;
+    }, [user]);
 
     const [isFlashed, setIsFlashed] = useState<boolean>(false);
     const [trashTalkMessage, setTrashTalkMessage] = useState<string | null>(null);
@@ -149,10 +155,18 @@ const Home: React.FC = () => {
             } else if (data.type === "error") {
                 setServerStatus(data.message);
             } else if (data.type === "matchResult") {
+                const currentToken = tokenRef.current;
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
                 if (myPlayerIndexRef.current === data.winnerIndex) {
                     setMatchResult("win");
+                    if (currentToken) {
+                        axios.post(`${apiUrl}/api/users/record-match`, { isWin: true }, { headers: { Authorization: `Bearer ${currentToken}` } }).catch(console.error);
+                    }
                 } else {
                     setMatchResult("lose");
+                    if (currentToken) {
+                        axios.post(`${apiUrl}/api/users/record-match`, { isWin: false }, { headers: { Authorization: `Bearer ${currentToken}` } }).catch(console.error);
+                    }
                 }
             } else if (data.type === "bothFinished") {
                 setMatchResult("draw");
