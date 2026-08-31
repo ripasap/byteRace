@@ -17,10 +17,12 @@ const AuthComponent: React.FC = () => {
         setError('');
         try {
             if (isSignUp) {
-                const res = await axios.post('http://localhost:4000/api/auth/register', { username, email, password });
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+                const res = await axios.post(`${apiUrl}/api/auth/register`, { username, email, password });
                 login(res.data.token, res.data.user);
             } else {
-                const res = await axios.post('http://localhost:4000/api/auth/login', { username, password });
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+                const res = await axios.post(`${apiUrl}/api/auth/login`, { username, password });
                 login(res.data.token, res.data.user);
             }
         } catch (err: any) {

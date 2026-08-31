@@ -18,7 +18,8 @@ const AllQuestionsRetriever: React.FC<AllQuestionsRetrieverProps> = ({ onQuestio
         const fetchQuestions = async () => {
             try {
                 // Fetch all questions (no difficulty filter)
-                const res = await axios.get('http://localhost:4000/api/questions');
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+                const res = await axios.get(`${apiUrl}/api/questions`);
                 onQuestionsFetched(res.data);
             } catch (err: any) {
                 console.error("Error fetching questions:", err);

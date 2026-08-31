@@ -45,14 +45,15 @@ const LoginForm: React.FC = () => {
         if (!validateFields()) return;
         setError(null);
         try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
             if (isSignUp) {
-                const res = await axios.post("http://localhost:4000/api/auth/register", {
+                const res = await axios.post(`${apiUrl}/api/auth/register`, {
                     username, email, password
                 });
                 login(res.data.token, res.data.user);
                 router.push("/");
             } else {
-                const res = await axios.post("http://localhost:4000/api/auth/login", {
+                const res = await axios.post(`${apiUrl}/api/auth/login`, {
                     username: email, // Using email as username field for login endpoint (backend takes username, frontend uses email input for it, wait, backend auth uses username, so let's pass it as username)
                     password
                 });
