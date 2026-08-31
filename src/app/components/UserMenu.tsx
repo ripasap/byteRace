@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { ThemeContext } from '../../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import Settings from './Settings';
+import { getShadows } from '../../context/shadows';
 
 interface UserMenuProps {
     buttonStyles: React.CSSProperties;
@@ -22,7 +23,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ buttonStyles }) => {
         return null;
     }
 
-    const { colors } = themeContext;
+    const { colors, theme } = themeContext;
+    const currentShadows = getShadows(theme);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -86,7 +88,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ buttonStyles }) => {
                             aria-labelledby="menu-button"
                             style={{
                                 backgroundColor: colors.background,
-                                color: colors.text,
+                                border: '1px solid rgba(128, 128, 128, 0.2)',
+                                boxShadow: currentShadows.elevated,
+                                zIndex: 1000,
                             }}
                         >
                             <div className="py-1" role="none">
@@ -145,6 +149,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ buttonStyles }) => {
                                 borderRadius: '10px',
                                 maxWidth: '400px',
                                 width: '100%',
+                                boxShadow: currentShadows.elevated,
                             }}>
                                 <Settings />
                                 <button

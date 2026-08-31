@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';  // Import ThemeContext
 import questionsData from '../data/questions.json';
+import { getShadows } from '../../context/shadows';
 
 interface TestCase {
     input: string;
@@ -61,7 +62,8 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({
         throw new Error('ThemeContext is undefined. Ensure that ThemeProvider is wrapping the component.');
     }
 
-    const { colors } = themeContext;
+    const { colors, theme } = themeContext;
+    const currentShadows = getShadows(theme);
 
     const activeQuestion = currentQuestion;
 
@@ -99,7 +101,7 @@ const ProblemDescription: React.FC<ProblemDescriptionProps> = ({
                 flexDirection: 'column',
                 alignItems: 'flex-start', // Align items to the top
                 minHeight: '300px', // Ensure the height remains constant
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                boxShadow: currentShadows.card,
                 color: colors.text,
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: "1.25em",

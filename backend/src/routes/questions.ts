@@ -20,21 +20,51 @@ interface Question {
     test_cases: TestCase[];
 }
 
-const filePath = path.join(__dirname, '../../src/data/questions.json');
+// In-memory cache for questions
+let cachedQuestions: Question[] = [];
+
+const loadQuestions = (): Question[] => {
+    const candidatePaths = [
+        path.join(__dirname, '../data/questions.json'),
+        path.join(__dirname, '../../src/data/questions.json'),
+        path.join(process.cwd(), 'src/data/questions.json'),
+        path.join(process.cwd(), 'backend/src/data/questions.json')
+    ];
+
+    for (const filePath of candidatePaths) {
+        if (fs.existsSync(filePath)) {
+            try {
+                const fileContents = fs.readFileSync(filePath, 'utf8');
+                const parsed = JSON.parse(fileContents);
+                const questions = (parsed.questions || parsed) as Question[];
+                console.log(`✅ Loaded ${questions.length} questions from ${filePath}`);
+                return questions;
+            } catch (error) {
+                console.error(`Error parsing questions file at ${filePath}:`, error);
+            }
+        }
+    }
+
+    console.warn('⚠️ Warning: questions.json not found in candidate paths. Initializing with empty list.');
+    return [];
+};
+
+// Pre-load questions into memory on module load
+cachedQuestions = loadQuestions();
+
 questionsRouter.get('/', (req: Request, res: Response) => {
-    let questionsData: Question[] = [];
-    try {
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        questionsData = JSON.parse(fileContents).questions as Question[];
-    } catch (error: any) {
-        console.error(`Error reading questions: ${error.message}`);
-        return res.status(500).json({ error: 'Failed to load questions' });
+    // If cache is empty, attempt reload once
+    if (cachedQuestions.length === 0) {
+        cachedQuestions = loadQuestions();
     }
 
     const { difficulty } = req.query;
-    if (!difficulty) {
-        return res.json(questionsData);
+    if (!difficulty || typeof difficulty !== 'string') {
+        return res.json(cachedQuestions);
     }
-    const filtered = questionsData.filter(q => q.difficulty === difficulty);
+
+    const filtered = cachedQuestions.filter(
+        q => q.difficulty.toLowerCase() === difficulty.toLowerCase()
+    );
     res.json(filtered);
 });

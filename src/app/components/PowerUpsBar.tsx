@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
 import PowerUpModal from './PowerUpModal'; // Correct import for PowerUpModal component
-import { FaBomb, FaBullseye, FaEye, FaCloudMoon, FaClock } from 'react-icons/fa';
+import Image from 'next/image';
+import FlashIcon from '../icons/FlashIcon';
+import { FaBullseye, FaCloudMoon } from 'react-icons/fa';
+import DeleteIcon from '../icons/DeleteIcon';
+import StopWatchIcon from '../icons/StopWatchIcon';
 import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
-import GetPeek from './GetPeek';  // Import GetPeek component
 import GlowSwap from './GlowSwap';  // Import GlowSwap component
-
 
 
 interface PowerUp {
@@ -16,11 +18,11 @@ interface PowerUp {
 }
 
 const powerUps: PowerUp[] = [
-    { name: 'Flashbang', description: 'Blinds your opponent and disables input for 1.5 seconds.', icon: <FaBomb />, color: '#ffffff', mode: 'multiplayer' },
-    { name: 'Precision Strike', description: 'Take out a line or variable.', icon: <FaBullseye />, color: '#ffa500', mode: 'multiplayer' },
-    { name: 'Trash Talk', description: 'Send an annoying message popup to your opponent.', icon: <FaEye />, color: '#00bfff', mode: 'multiplayer' },
-    { name: 'Glow Swap', description: 'Switch your opponent\'s theme to ludicrous mode.', icon: <FaCloudMoon />, color: '#8a2be2', mode: 'multiplayer' },
-    { name: 'Async Await', description: 'Stops your timer for 30 seconds.', icon: <FaClock />, color: '#ffd700', mode: 'multiplayer' },
+    { name: 'Flashbang', description: 'Blinds your opponent and disables input for 1.5 seconds.', icon: <FlashIcon style={{ width: '28px', height: '28px', display: 'block' }} />, color: '#ffffff', mode: 'multiplayer' },
+    { name: 'Critical Hit', description: "Take out a random line of opponent's code.", icon: <FaBullseye />, color: '#ffa500', mode: 'multiplayer' },
+    { name: 'Trash Talk', description: 'Send an annoying message popup to your opponent.', icon: <DeleteIcon />, color: '#00bfff', mode: 'multiplayer' },
+    { name: 'Bad Trip', description: 'Switch your opponent\'s theme to ludicrous mode.', icon: <FaCloudMoon />, color: '#8a2be2', mode: 'multiplayer' },
+    { name: 'Async Await', description: 'Stops timer and prevents opponent from submitting for 30 seconds.', icon: <StopWatchIcon />, color: '#ffd700', mode: 'multiplayer' },
 ];
 
 interface PowerUpsBarProps {
@@ -37,20 +39,6 @@ const PowerUpsBar: React.FC<PowerUpsBarProps> = ({ ws, roomCode, hasUsedPowerup,
     const [isTrashTalkActive, setIsTrashTalkActive] = useState(false);
     const [trashTalkMessage, setTrashTalkMessage] = useState("");
     const [isGlowSwapActive, setIsGlowSwapActive] = useState(false);  // Add state for Glow Swap
-
-    const [code, setCode] = useState<string[]>([
-        'def factorial (n):',
-        '   fact = 1',
-        '   i = n',
-        '   while i < n:',
-        '       fact *= i',
-        '       i -= 1',
-        '   return fact',
-    ]); // Initialize dummy code
-
-
-
-
 
     const themeContext = useContext(ThemeContext);
 
@@ -86,10 +74,10 @@ const PowerUpsBar: React.FC<PowerUpsBarProps> = ({ ws, roomCode, hasUsedPowerup,
                         alert("You must be in a multiplayer room to use this powerup!");
                     }
                     break;
-                case 'Precision Strike':
-                    console.log('Precision Strike activated!');
+                case 'Critical Hit':
+                    console.log('Critical Hit activated!');
                     if (ws && ws.readyState === WebSocket.OPEN && roomCode) {
-                        ws.send(JSON.stringify({ type: 'powerUp', name: 'Precision Strike', roomCode }));
+                        ws.send(JSON.stringify({ type: 'powerUp', name: 'Critical Hit', roomCode }));
                         powerupSent = true;
                     } else {
                         alert("You must be in a multiplayer room to use this powerup!");
@@ -102,8 +90,14 @@ const PowerUpsBar: React.FC<PowerUpsBarProps> = ({ ws, roomCode, hasUsedPowerup,
                         alert("You must be in a multiplayer room to use this powerup!");
                     }
                     break;
-                case 'Glow Swap':
-                    setIsGlowSwapActive(true);  // Activate Glow Swap modal
+                case 'Bad Trip':
+                    console.log('Bad Trip activated!');
+                    if (ws && ws.readyState === WebSocket.OPEN && roomCode) {
+                        ws.send(JSON.stringify({ type: 'powerUp', name: 'Bad Trip', roomCode }));
+                        powerupSent = true;
+                    } else {
+                        alert("You must be in a multiplayer room to use this powerup!");
+                    }
                     break;
                 case 'Async Await':
                     if (ws && ws.readyState === WebSocket.OPEN && roomCode) {
@@ -180,8 +174,8 @@ const PowerUpsBar: React.FC<PowerUpsBarProps> = ({ ws, roomCode, hasUsedPowerup,
                 <PowerUpModal show={isTrashTalkActive} handleClose={() => setIsTrashTalkActive(false)}>
                     <h2>Trash Talk</h2>
                     <p>Type a message to distract your opponent!</p>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         value={trashTalkMessage}
                         onChange={(e) => setTrashTalkMessage(e.target.value)}
                         placeholder="e.g. You type so slow..."

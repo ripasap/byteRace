@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
-import { useCodeMirror } from "@uiw/react-codemirror";
+import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
 import { javascript } from "@codemirror/lang-javascript";
+import { oneDark } from '@codemirror/theme-one-dark';
 import axios from 'axios';
 import LoadingAnimation from './LoadingAnimation';
 import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
 import { usePyodide } from '../hooks/usePyodide'; // Import usePyodide hook
 import { EditorView } from "@codemirror/view";
 import { eventBus } from '../utils/EventBus';
+import { getShadows } from '../../context/shadows';
 
 interface CodeEditorProps {
     code: string;
@@ -48,7 +50,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     isSubmitBlocked = false,
 }) => {
     const { pyodide, isLoading: isPyodideLoading } = usePyodide();
-    const editorRef = useRef<HTMLDivElement | null>(null);
     const [isRunning, setIsRunning] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLocalAsyncAwaitActive, setIsLocalAsyncAwaitActive] = useState(false);
@@ -61,7 +62,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         throw new Error('ThemeContext is undefined. Make sure you are using ThemeProvider to wrap the component.');
     }
 
-    const { colors } = themeContext;
+    const { colors, theme } = themeContext;
+    const currentShadows = getShadows(theme);
 
     // Timer handling functions
     const startTimer = () => {
@@ -102,27 +104,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     };
 
 
-
-    // Initialize the code editor with the current problem's code
-    const { setContainer } = useCodeMirror({
-        container: editorRef.current,
-        value: code,
-        height: "300px",
-        extensions: [
-            language === "python" ? python() : javascript(),
-        ],
-        onChange: (value) => {
-            setCode(value);
-            console.log('Code updated: ', value);  // Debug logging
-        },
-    });
-
-    // Ensure the code editor is set up correctly
-    useEffect(() => {
-        if (editorRef.current) {
-            setContainer(editorRef.current);
-        }
-    }, [editorRef.current, setContainer, language]);
 
     // Reset code when language changes
     useEffect(() => {
@@ -216,7 +197,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 minHeight: '300px',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                boxShadow: currentShadows.card,
                 color: colors.text,
                 fontFamily: 'JetBrains Mono, monospace',
                 fontSize: '1.25em',
@@ -228,37 +209,57 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
                 <div style={{ fontSize: '1.25em', color: colors.text }}>Timer: {formatTime(elapsedTime)}</div>
             </div>
 
-            <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value as 'python' | 'javascript')}
-                style={{
-                    backgroundColor: colors.background,
-                    color: colors.text,
-                    padding: '10px',
-                    borderRadius: '10px',
-                    border: `1px solid ${colors.text}`,
-                    cursor: 'pointer',
-                    appearance: 'none',
-                    transition: 'background-color 0.3s ease',
-                }}
-            >
-                <option value="python">Python</option>
-                <option value="javascript">JavaScript</option>
-            </select>
+            <div style={{ display: 'inline-block', marginBottom: '10px' }}>
+                <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value as 'python' | 'javascript')}
+                    style={{
+                        backgroundColor: colors.buttonBackground,
+                        color: colors.text,
+                        padding: '10px 15px',
+                        borderRadius: '10px',
+                        border: '1px solid rgba(128, 128, 128, 0.2)',
+                        boxShadow: currentShadows.elevated,
+                        cursor: 'pointer',
+                        appearance: 'none',
+                        transition: 'all 0.3s ease',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                </select>
+            </div>
 
-            <div ref={editorRef} style={{ marginTop: "10px" }} />
+            <div style={{ marginTop: "10px", textAlign: 'left', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <CodeMirror
+                    value={code}
+                    height="300px"
+                    theme={theme === 'dark' ? oneDark : 'light'}
+                    basicSetup={{ lineNumbers: true, foldGutter: true, highlightActiveLineGutter: true }}
+                    extensions={[language === "python" ? python() : javascript()]}
+                    onChange={(value) => {
+                        setCode(value);
+                        console.log('Code updated: ', value);
+                    }}
+                    style={{ fontSize: '0.85em', border: '1px solid rgba(128, 128, 128, 0.2)', borderRadius: '8px', overflow: 'hidden' }}
+                />
+            </div>
 
             <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "20px" }}>
                 <button
                     onClick={handleRunCode}
                     style={{
-                        backgroundColor: (isRunning || isSubmitting || isDisabled) ? '#555' : colors.buttonBackground,
-                        color: colors.buttonTextRun,
-                        padding: '10px',
+                        backgroundColor: 'transparent',
+                        color: colors.text,
+                        padding: '10px 20px',
                         borderRadius: '10px',
+                        border: theme === 'dark' ? '2px solid rgba(255, 255, 255, 0.3)' : '2px solid rgba(0, 0, 0, 0.3)',
                         cursor: (isRunning || isSubmitting || isDisabled) ? 'not-allowed' : 'pointer',
-                        fontSize: '25px',
-                        opacity: isDisabled ? 0.5 : 1
+                        fontSize: '22px',
+                        fontWeight: 'bold',
+                        opacity: isDisabled ? 0.5 : 1,
+                        transition: 'all 0.2s ease',
                     }}
                     disabled={isRunning || isSubmitting || isDisabled}
                     title={isDisabled ? "Start the game to run code!" : ""}
@@ -269,13 +270,16 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
                 <button
                     onClick={handleSubmitCode}
                     style={{
-                        backgroundColor: (isRunning || isSubmitting || isDisabled || isSubmitBlocked) ? '#555' : colors.buttonBackground,
-                        color: colors.buttonTextSubmit,
-                        padding: '10px',
+                        backgroundColor: 'transparent',
+                        color: '#43A146',
+                        padding: '10px 30px',
                         borderRadius: '10px',
+                        border: '2px solid #43A146',
                         cursor: (isRunning || isSubmitting || isDisabled || isSubmitBlocked) ? 'not-allowed' : 'pointer',
-                        fontSize: '25px',
-                        opacity: (isDisabled || isSubmitBlocked) ? 0.5 : 1
+                        fontSize: '22px',
+                        fontWeight: 'bold',
+                        opacity: (isDisabled || isSubmitBlocked) ? 0.5 : 1,
+                        transition: 'all 0.2s ease',
                     }}
                     disabled={isRunning || isSubmitting || isDisabled || isSubmitBlocked}
                     title={isDisabled ? "Start the game to submit code!" : (isSubmitBlocked ? "Opponent activated Async Await! Submissions are blocked for 30s." : "")}

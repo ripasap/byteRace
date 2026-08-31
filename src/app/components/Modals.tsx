@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
+import { getShadows } from '../../context/shadows';
 
 interface ModalProps {
     show: boolean;
@@ -19,7 +20,8 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, isHostModal, ws, roomC
         throw new Error('ThemeContext is undefined. Ensure that ThemeProvider is wrapping the component.');
     }
 
-    const { colors } = themeContext;  // Destructure colors from the theme context
+    const { colors, theme } = themeContext;  // Destructure colors from the theme context
+    const currentShadows = getShadows(theme);
 
 
 
@@ -95,7 +97,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, isHostModal, ws, roomC
                     border-radius: 15px;
                     text-align: center;
                     width: 300px;
-                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+                    boxShadow: ${currentShadows.elevated};
                 }
 
                 .close {

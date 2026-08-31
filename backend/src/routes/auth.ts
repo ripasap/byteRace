@@ -2,17 +2,34 @@ import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../db';
+import { config } from '../config';
 
 export const authRouter = Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 authRouter.post('/register', async (req: Request, res: Response) => {
     try {
-        const { username, email, password } = req.body;
+        let { username, email, password } = req.body;
 
         if (!username || !email || !password) {
-            return res.status(400).json({ error: 'Missing fields' });
+            return res.status(400).json({ error: 'Username, email, and password are required' });
+        }
+
+        username = typeof username === 'string' ? username.trim() : '';
+        email = typeof email === 'string' ? email.trim().toLowerCase() : '';
+        password = typeof password === 'string' ? password : '';
+
+        if (username.length < 3) {
+            return res.status(400).json({ error: 'Username must be at least 3 characters long' });
+        }
+
+        if (!EMAIL_REGEX.test(email)) {
+            return res.status(400).json({ error: 'Invalid email address format' });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({ error: 'Password must be at least 6 characters long' });
         }
 
         const existingUser = await prisma.user.findFirst({
@@ -35,22 +52,32 @@ authRouter.post('/register', async (req: Request, res: Response) => {
             }
         });
 
-        const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign(
+            { userId: user.id, username: user.username },
+            config.jwtSecret,
+            { expiresIn: '7d' }
+        );
 
-        res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
+        res.status(201).json({
+            token,
+            user: { id: user.id, username: user.username, email: user.email }
+        });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Registration failed' });
+        console.error('Registration error:', error);
+        res.status(500).json({ error: 'Registration failed. Please try again later.' });
     }
 });
 
 authRouter.post('/login', async (req: Request, res: Response) => {
     try {
-        const { username, password } = req.body;
+        let { username, password } = req.body;
 
         if (!username || !password) {
-            return res.status(400).json({ error: 'Missing fields' });
+            return res.status(400).json({ error: 'Username and password are required' });
         }
+
+        username = typeof username === 'string' ? username.trim() : '';
+        password = typeof password === 'string' ? password : '';
 
         const user = await prisma.user.findUnique({
             where: { username }
@@ -65,11 +92,18 @@ authRouter.post('/login', async (req: Request, res: Response) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign(
+            { userId: user.id, username: user.username },
+            config.jwtSecret,
+            { expiresIn: '7d' }
+        );
 
-        res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
+        res.json({
+            token,
+            user: { id: user.id, username: user.username, email: user.email }
+        });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Login failed' });
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Login failed. Please try again later.' });
     }
 });

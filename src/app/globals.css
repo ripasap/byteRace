@@ -146,55 +146,10 @@ body {
   white-space: pre-wrap;
 }
 
-/* Override CodeMirror editor styles */
+/* Override CodeMirror editor font */
 .cm-editor {
-  background-color: #ffffff !important;
-  /* Set background to white */
-  color: #000000 !important;
-  /* Default text color to black */
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  /* Bold text */
-}
-
-.cm-content {
-  color: #000000 !important;
-  /* Ensures the text color is black */
-}
-
-/* Change the cursor color */
-.cm-cursor {
-  border-left: 2px solid #000000 !important;
-  /* Black cursor */
-}
-
-/* Highlight color for selected text */
-.cm-activeLine {
-  background-color: rgba(0, 0, 0, 0.1);
-  /* Subtle highlight for active line */
-}
-
-.cm-gutters {
-  background-color: #ffffff !important;
-  /* White background for line numbers */
-  color: #888888 !important;
-  /* Light gray line numbers */
-}
-
-/* Override syntax highlighting for comments, keywords, strings, etc. */
-.cm-comment {
-  color: #888888 !important;
-  /* Comments in gray */
-}
-
-.cm-keyword {
-  color: #0000ff !important;
-  /* Keywords in blue */
-}
-
-.cm-string {
-  color: #008000 !important;
-  /* Strings in green */
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 700 !important;
 }
 
 /* Global Dropdown Styles */

@@ -115,6 +115,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/dotenv@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.npmjs.org/@types/dotenv/-/dotenv-6.1.1.tgz"
+  integrity sha512-ftQl3DtBvqHl9L16tpqqzA4YzCSXZfi7g8cQceTz5rOlYtk/IZbFjAv3mLOQlNIgOaylCQWQoBdDQHPgEBJPHg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/express-serve-static-core@^4.17.33":
   version "4.19.6"
   resolved "https://registry.npmjs.org/@types/express-serve-static-core/-/express-serve-static-core-4.19.6.tgz"
@@ -331,6 +338,11 @@ diff@^4.0.1:
   version "4.0.2"
   resolved "https://registry.npmjs.org/diff/-/diff-4.0.2.tgz"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
+
+dotenv@^17.4.2:
+  version "17.4.2"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-17.4.2.tgz"
+  integrity sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==
 
 ecdsa-sig-formatter@1.0.11:
   version "1.0.11"

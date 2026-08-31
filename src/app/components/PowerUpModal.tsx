@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
+import { getShadows } from '../../context/shadows';
 
 
 interface ModalProps {
@@ -21,7 +22,8 @@ const PowerUpModal: React.FC<ModalProps> = ({ show, handleClose, children }) => 
         throw new Error('ThemeContext is undefined. Ensure that ThemeProvider is wrapping the component.');
     }
 
-    const { colors } = themeContext;
+    const { colors, theme } = themeContext;
+    const currentShadows = getShadows(theme);
 
     return (
         <div className="modal">
@@ -51,7 +53,7 @@ const PowerUpModal: React.FC<ModalProps> = ({ show, handleClose, children }) => 
                     text-align: center;
                     width: 350px;  /* Slightly wider */
                     color: ${colors.powerUpModal.text};  /* Use modal text color from theme */
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);  /* Shadow for depth */
+                    box-shadow: ${currentShadows.elevated};  /* Shadow for depth */
                     animation: fadeIn 0.3s ease-in-out;
                 }
 

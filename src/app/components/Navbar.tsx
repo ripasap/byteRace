@@ -4,6 +4,7 @@ import { faTrophy, faGamepad, faUserFriends } from "@fortawesome/free-solid-svg-
 import UserMenu from "./UserMenu";
 import { ThemeContext } from '../../context/ThemeContext';
 import PlayerStatus from './PlayerStatus';
+import { getShadows } from '../../context/shadows';
 
 import { User } from '../context/AuthContext';
 
@@ -25,7 +26,8 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
         throw new Error('ThemeContext is undefined. Ensure that ThemeProvider is wrapping the component.');
     }
 
-    const { colors } = themeContext;
+    const { colors, theme } = themeContext;
+    const currentShadows = getShadows(theme);
 
 
 
@@ -38,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
                 backgroundColor: colors.background,
                 padding: "5px 15px",
                 borderRadius: "10px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                boxShadow: currentShadows.card,
                 margin: "10px auto",
                 height: "60px",
                 color: colors.text,
@@ -54,41 +56,41 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
                 </button>
                 <button
                     onClick={() => {
-                        if (mode === "single") return;
+                        if (mode === "single" || roomCode) return;
                         if (!user) {
                             alert("You must sign in first before playing multiplayer.");
                             return;
                         }
                         setShowJoinModal(true);
                     }}
-                    style={{ 
-                        ...buttonStyles, 
-                        color: mode === "single" || !user ? "#555" : colors.text, 
-                        backgroundColor: mode === "single" || !user ? "#222" : colors.buttonBackground,
-                        cursor: mode === "single" || !user ? "not-allowed" : "pointer"
+                    style={{
+                        ...buttonStyles,
+                        color: mode === "single" || !!roomCode ? "#646464ff" : colors.text,
+                        backgroundColor: mode === "single" || !!roomCode ? "#222" : colors.buttonBackground,
+                        cursor: mode === "single" || !!roomCode ? "not-allowed" : "pointer"
                     }}
-                    disabled={mode === "single" || !user}
-                    title={mode === "single" ? "Multiplayer features are disabled in single-player mode" : !user ? "Please sign in to play multiplayer" : ""}
+                    disabled={mode === "single" || !!roomCode}
+                    title={mode === "single" ? "Multiplayer features are disabled in single-player mode" : roomCode ? "You are already in a game" : ""}
                 >
                     <FontAwesomeIcon icon={faGamepad} /> Join a Game
                 </button>
                 <button
                     onClick={() => {
-                        if (mode === "single") return;
+                        if (mode === "single" || roomCode) return;
                         if (!user) {
                             alert("You must sign in first before playing multiplayer.");
                             return;
                         }
                         setShowHostModal(true);
                     }}
-                    style={{ 
-                        ...buttonStyles, 
-                        color: mode === "single" || !user ? "#555" : colors.text, 
-                        backgroundColor: mode === "single" || !user ? "#222" : colors.buttonBackground,
-                        cursor: mode === "single" || !user ? "not-allowed" : "pointer"
+                    style={{
+                        ...buttonStyles,
+                        color: mode === "single" || !!roomCode ? "#555" : colors.text,
+                        backgroundColor: mode === "single" || !!roomCode ? "#222" : colors.buttonBackground,
+                        cursor: mode === "single" || !!roomCode ? "not-allowed" : "pointer"
                     }}
-                    disabled={mode === "single" || !user}
-                    title={mode === "single" ? "Multiplayer features are disabled in single-player mode" : !user ? "Please sign in to play multiplayer" : ""}
+                    disabled={mode === "single" || !!roomCode}
+                    title={mode === "single" ? "Multiplayer features are disabled in single-player mode" : roomCode ? "You are already in a game" : ""}
                 >
                     <FontAwesomeIcon icon={faUserFriends} /> Host a Game
                 </button>
@@ -124,9 +126,14 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
                     alignItems: "center",
                     justifyContent: "space-between",
                     padding: "0 5px",
-                    cursor: "pointer",
+                    cursor: roomCode ? "not-allowed" : "pointer",
+                    opacity: roomCode ? 0.6 : 1,
                 }}
-                onClick={() => setMode(mode === "single" ? "multiplayer" : "single")}
+                onClick={() => {
+                    if (roomCode) return;
+                    setMode(mode === "single" ? "multiplayer" : "single");
+                }}
+                title={roomCode ? "Cannot change mode while in a room" : ""}
             >
                 <div
                     style={{
@@ -135,10 +142,11 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
                         left: mode === "single" ? "3px" : "calc(100% - 93px)",
                         width: "88px",
                         height: "30px",
-                        backgroundColor: colors.cardBackground,
+                        backgroundColor: theme === 'dark' ? '#2c2c2e' : colors.cardBackground,
                         borderRadius: "15px",
                         transition: "left 0.3s ease",
-                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)",
+                        boxShadow: currentShadows.subtle,
+                        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : 'none',
                         zIndex: 1,
                     }}
                 />

@@ -22,19 +22,19 @@ interface ThemeColors {
 
 // Define three themes: light, dark, and ludicrous
 const lightTheme: ThemeColors = {
-    background: '#f9f9f9',
-    text: '#333',
-    buttonBackground: '#e0e0e0',
+    background: '#e8eaed',
+    text: '#202124',
+    buttonBackground: '#dadce0',
     buttonTextRun: '#856404', // Dark goldenrod for better contrast in light mode
     buttonTextSubmit: '#0f5132', // Dark green for better contrast in light mode
     header: '#000',
     cardBackground: '#ffffff',
     powerUpModal: {
         background: '#ffffff',
-        text: '#333333',
-        buttonBackground: '#e0e0e0',
-        buttonText: '#333333',
-        closeButton: '#ff5555',
+        text: '#202124',
+        buttonBackground: '#dadce0',
+        buttonText: '#202124',
+        closeButton: '#d93025',
         closeButtonHover: '#ff8888',
         titleGradientStart: '#d4af00', // Updated gradient start to match darker yellow
         titleGradientEnd: '#ff007f',

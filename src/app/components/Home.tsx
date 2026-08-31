@@ -180,7 +180,7 @@ const Home: React.FC = () => {
                     setTimeout(() => {
                         setIsFlashed(false);
                     }, 3000);
-                } else if (data.name === 'Precision Strike') {
+                } else if (data.name === 'Critical Hit') {
                     setCode((prevCode: string) => {
                         const lines = prevCode.split('\n');
                         const validLineIndices: number[] = [];
@@ -204,6 +204,10 @@ const Home: React.FC = () => {
                 } else if (data.name === 'Async Await') {
                     setIsSubmitBlocked(true);
                     setTimeout(() => setIsSubmitBlocked(false), 30000);
+                } else if (data.name === 'Bad Trip') {
+                    if (themeContext) {
+                        themeContext.setTheme('ludicrous');
+                    }
                 }
             }
         };
@@ -608,8 +612,10 @@ const Home: React.FC = () => {
                         validatorOutput={validatorOutput}
                         isValidating={isValidating}
                         isCorrect={isCorrect}
+                        code={code}
+                        language={language}
                     />
-                    {output}
+
                 </div>
 
                 <Modal

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import Settings from './Settings';  // Ensure the path is correct
 import { ThemeContext } from '../../context/ThemeContext';  // Import ThemeContext
+import { getShadows } from '../../context/shadows';
 
 interface NavigationModalProps {
     isVisible: boolean;
@@ -15,7 +16,8 @@ const NavigationModal: React.FC<NavigationModalProps> = ({ isVisible, onClose })
         throw new Error('ThemeContext is undefined. Ensure that ThemeProvider is wrapping the component.');
     }
 
-    const { colors } = themeContext;
+    const { colors, theme } = themeContext;
+    const currentShadows = getShadows(theme);
 
     if (!isVisible) return null;  // Don't render the modal if it's not visible
 
@@ -39,6 +41,7 @@ const NavigationModal: React.FC<NavigationModalProps> = ({ isVisible, onClose })
                 width: '400px',
                 color: colors.text,  // Use text color from theme
                 fontFamily: 'JetBrains Mono, monospace',
+                boxShadow: currentShadows.elevated,
             }}>
                 {showSettings ? (
                     <>
