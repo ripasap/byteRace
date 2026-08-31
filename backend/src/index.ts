@@ -9,7 +9,12 @@ import { usersRouter } from './routes/users';
 // Initialize express app
 const app = express();
 
-app.use(cors({ origin: config.corsOrigin, credentials: true }));
+app.use(cors({ 
+    origin: function (origin, callback) {
+        callback(null, true);
+    }, 
+    credentials: true 
+}));
 app.use(express.json());
 
 // Mount REST routes
