@@ -9,7 +9,7 @@ interface TestCase {
 }
 
 interface Question {
-    id: string;
+    id: number;
     difficulty: string;
     question: string;
     python_template: string;
@@ -19,7 +19,7 @@ interface Question {
 
 interface QuestionRetrieverProps {
     difficulty?: string;
-    onQuestionsFetched: (questions: Question[]) => void;
+    onQuestionsFetched: (questions: Question | Question[] | null) => void;
 }
 
 const QuestionRetriever: React.FC<QuestionRetrieverProps> = ({ difficulty, onQuestionsFetched }) => {
