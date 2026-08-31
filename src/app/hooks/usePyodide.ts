@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 let pyodidePromise: Promise<any> | null = null;
+let scriptInjected = false;
 
 export const usePyodide = () => {
     const [pyodide, setPyodide] = useState<any>(null);
@@ -12,6 +13,14 @@ export const usePyodide = () => {
         const loadPyodide = async () => {
             if (typeof window !== "undefined") {
                 try {
+                    if (!scriptInjected && !document.querySelector('script[src*="pyodide.js"]')) {
+                        scriptInjected = true;
+                        const pyodideScript = document.createElement("script");
+                        pyodideScript.src = "https://cdn.jsdelivr.net/pyodide/v0.23.2/full/pyodide.js";
+                        pyodideScript.async = true;
+                        document.head.appendChild(pyodideScript);
+                    }
+
                     while (!(window as any).loadPyodide) {
                         await new Promise(resolve => setTimeout(resolve, 100));
                     }
