@@ -26,10 +26,22 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, isHostModal, ws, roomC
 
 
 
+    const [copied, setCopied] = useState(false);
+
     // Function to create a room (for hosts)
     const createRoom = () => {
         if (ws) {
             ws.send(JSON.stringify({ type: "createRoom", userId }));
+        }
+    };
+
+    const handleRoomCodeClick = () => {
+        if (roomCode) {
+            navigator.clipboard.writeText(roomCode);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } else {
+            createRoom();
         }
     };
 
@@ -50,8 +62,20 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, isHostModal, ws, roomC
 
                 {isHostModal ? (
                     <>
-                        <button onClick={createRoom} className="create-room-btn">
-                            {roomCode ? `Room Code: ${roomCode}` : "Create Room"}
+                        <button onClick={handleRoomCodeClick} className="create-room-btn" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                            {roomCode ? (
+                                copied ? (
+                                    <>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Copied!
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                        Room Code: {roomCode}
+                                    </>
+                                )
+                            ) : "Create Room"}
                         </button>
                         {roomCode && (
                             <p>
