@@ -26,10 +26,25 @@ const Page: React.FC = () => {
         };
     }, []);
 
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'VideoGame',
+        name: 'ByteRace',
+        description: 'A fast-paced multiplayer coding game with real-time programming challenges and rankings.',
+        applicationCategory: 'Game',
+        genre: ['Puzzle', 'Educational'],
+        operatingSystem: 'Web browser',
+        url: 'https://byterace.app/',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    };
+
     return (
-        <ThemeProvider>
-            {loading ? <Loading /> : <Home />}  {/* Show loading screen while the page is loading */}
-        </ThemeProvider>
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+            <ThemeProvider>
+                {loading ? <Loading /> : <Home />}  {/* Show loading screen while the page is loading */}
+            </ThemeProvider>
+        </>
     );
 };
 
