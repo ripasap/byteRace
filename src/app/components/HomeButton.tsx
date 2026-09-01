@@ -2,12 +2,16 @@ import { useRouter } from "next/navigation";
 import React, { useState, useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 
-const HomeButton = () => {
+const HomeButton = ({ forceDark = false }: { forceDark?: boolean }) => {
     const [isClicked, setIsClicked] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const router = useRouter();
     const themeContext = useContext(ThemeContext);
-    const colors = themeContext ? themeContext.colors : { text: '#ffffff', background: '#000000', buttonBackground: '#ffffff' };
+    
+    let colors = themeContext ? themeContext.colors : { text: '#ffffff', background: '#000000', buttonBackground: '#ffffff' };
+    if (forceDark) {
+        colors = { ...colors, text: '#ffffff', background: '#161617', buttonBackground: '#1f1f1f' };
+    }
 
     return (
         <a

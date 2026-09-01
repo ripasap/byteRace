@@ -75,6 +75,60 @@ usersRouter.get('/leaderboard', async (req: Request, res: Response) => {
     }
 });
 
+usersRouter.get('/leaderboard/multiplayer', authenticate, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        const userId = req.user?.userId;
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const matches = await prisma.match.findMany({
+            where: {
+                OR: [
+                    { winnerId: userId },
+                    { loserId: userId }
+                ]
+            },
+            include: {
+                winner: { select: { id: true, username: true } },
+                loser: { select: { id: true, username: true } }
+            }
+        });
+
+        const opponentStats: Record<string, { id: string, username: string, wins: number, losses: number }> = {};
+
+        matches.forEach(match => {
+            const isWin = match.winnerId === userId;
+            const opponent = isWin ? match.loser : match.winner;
+            
+            if (!opponentStats[opponent.id]) {
+                opponentStats[opponent.id] = {
+                    id: opponent.id,
+                    username: opponent.username,
+                    wins: 0,
+                    losses: 0
+                };
+            }
+            
+            if (isWin) {
+                opponentStats[opponent.id].wins += 1;
+            } else {
+                opponentStats[opponent.id].losses += 1;
+            }
+        });
+
+        const allUsers = Object.values(opponentStats);
+
+        // Sort by wins
+        allUsers.sort((a, b) => b.wins - a.wins);
+
+        res.json(allUsers);
+    } catch (error) {
+        console.error('Error fetching multiplayer leaderboard:', error);
+        res.status(500).json({ error: 'Failed to fetch multiplayer leaderboard' });
+    }
+});
+
 usersRouter.post('/record-match', authenticate, async (req: AuthenticatedRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
@@ -82,21 +136,21 @@ usersRouter.post('/record-match', authenticate, async (req: AuthenticatedRequest
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
-        const { isWin } = req.body;
+        const { isWin, opponentId } = req.body;
         const winBool = Boolean(isWin);
 
-        const user = await prisma.user.update({
-            where: { id: userId },
-            data: {
-                wins: winBool ? { increment: 1 } : undefined,
-                losses: !winBool ? { increment: 1 } : undefined
-            },
-            select: { id: true, username: true, wins: true, losses: true }
-        });
+        if (winBool && opponentId) {
+            await prisma.match.create({
+                data: {
+                    winnerId: userId,
+                    loserId: opponentId
+                }
+            });
+        }
 
-        res.json(user);
+        res.json({ success: true });
     } catch (error) {
         console.error('Error recording match:', error);
-        res.status(500).json({ error: 'Failed to record match result' });
+        res.status(500).json({ error: 'Failed to record match' });
     }
 });

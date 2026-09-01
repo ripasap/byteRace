@@ -9,9 +9,10 @@ interface ModalProps {
     ws: WebSocket | null;
     roomCode: string;
     serverStatus: string;
+    userId: string | undefined;
 }
 
-const Modal: React.FC<ModalProps> = ({ show, handleClose, isHostModal, ws, roomCode, serverStatus }) => {
+const Modal: React.FC<ModalProps> = ({ show, handleClose, isHostModal, ws, roomCode, serverStatus, userId }) => {
     const [inputValue, setInputValue] = useState<string>('');
 
     const themeContext = useContext(ThemeContext);  // Use the theme context
@@ -28,14 +29,14 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, isHostModal, ws, roomC
     // Function to create a room (for hosts)
     const createRoom = () => {
         if (ws) {
-            ws.send(JSON.stringify({ type: "createRoom" }));
+            ws.send(JSON.stringify({ type: "createRoom", userId }));
         }
     };
 
     // Function to join a room (for players)
     const joinRoom = () => {
         if (ws && inputValue) {
-            ws.send(JSON.stringify({ type: "joinRoom", roomCode: inputValue }));
+            ws.send(JSON.stringify({ type: "joinRoom", roomCode: inputValue, userId }));
         }
     };
 

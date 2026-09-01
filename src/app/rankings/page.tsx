@@ -22,8 +22,10 @@ const RankingsPage: React.FC = () => {
     useEffect(() => {
         const fetchLeaderboard = async () => {
             try {
+                const token = localStorage.getItem('token');
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-                const res = await axios.get(`${apiUrl}/api/users/leaderboard`);
+                const headers = token ? { Authorization: `Bearer ${token}` } : {};
+                const res = await axios.get(`${apiUrl}/api/users/leaderboard/multiplayer`, { headers });
                 setMainLeaderboard(res.data);
             } catch (err: any) {
                 setError(err.message || 'Failed to load leaderboard');
@@ -62,7 +64,7 @@ const RankingsPage: React.FC = () => {
                     className="absolute left-1/2 transform -translate-x-1/2 text-center"
                     style={{ color: colors.text }}
                 >
-                    Multiplayer Rankings
+                    Your Multiplayer Rankings
                 </h2>
             </nav>
 
@@ -85,7 +87,7 @@ const RankingsPage: React.FC = () => {
                         }}
                     >
                         <th style={{ padding: '10px', textAlign: 'left' }}>Rank</th>
-                        <th style={{ padding: '10px', textAlign: 'left' }}>Username</th>
+                        <th style={{ padding: '10px', textAlign: 'left' }}>Opponent</th>
                         <th style={{ padding: '10px', textAlign: 'right' }}>Wins</th>
                         <th style={{ padding: '10px', textAlign: 'right' }}>Losses</th>
                     </tr>

@@ -15,6 +15,18 @@ model User {
   wins          Int      @default(0)
   losses        Int      @default(0)
   elo           Int      @default(1400) // Keep elo in schema just in case, but MVP will focus on wins/losses
+  wonMatches    Match[]  @relation("WonMatches")
+  lostMatches   Match[]  @relation("LostMatches")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model Match {
+  id          String   @id @default(cuid())
+  winnerId    String
+  loserId     String
+  createdAt   DateTime @default(now())
+
+  winner      User     @relation("WonMatches", fields: [winnerId], references: [id])
+  loser       User     @relation("LostMatches", fields: [loserId], references: [id])
 }

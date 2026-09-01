@@ -87,9 +87,21 @@ const Home: React.FC = () => {
     const myPlayerIndexRef = useRef<number | null>(null);
     const tokenRef = useRef<string | null>(null);
     const [matchResult, setMatchResult] = useState<"win" | "lose" | "draw" | null>(null);
+    const [userId, setUserId] = useState<string | undefined>(undefined);
+    const opponentIdRef = useRef<string | undefined>(undefined);
 
     useEffect(() => {
         tokenRef.current = user ? localStorage.getItem('token') : null;
+        if (tokenRef.current) {
+            try {
+                const payload = JSON.parse(atob(tokenRef.current.split('.')[1]));
+                setUserId(payload.userId || payload.id);
+            } catch (e) {
+                console.error("Token parse failed", e);
+            }
+        } else {
+            setUserId(undefined);
+        }
     }, [user]);
 
     const [isFlashed, setIsFlashed] = useState<boolean>(false);
@@ -153,6 +165,7 @@ const Home: React.FC = () => {
             const data = JSON.parse(event.data);
 
             if (data.type === 'playerJoined') {
+                if (data.opponentId) opponentIdRef.current = data.opponentId;
                 if (myPlayerIndexRef.current === null && data.playerIndex === 0) {
                     setMyPlayerIndex(0);
                     myPlayerIndexRef.current = 0;
@@ -168,6 +181,7 @@ const Home: React.FC = () => {
                     setCurrentProblemIndex(data.startingIndex);
                 }
             } else if (data.type === "joinedRoom") {
+                if (data.opponentId) opponentIdRef.current = data.opponentId;
                 setRoomCode(data.roomCode);
                 if (data.startingIndex !== undefined) {
                     setCurrentProblemIndex(data.startingIndex);
@@ -181,16 +195,17 @@ const Home: React.FC = () => {
                 setServerStatus(data.message);
             } else if (data.type === "matchResult") {
                 const currentToken = tokenRef.current;
+                const opponentId = opponentIdRef.current;
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
                 if (myPlayerIndexRef.current === data.winnerIndex) {
                     setMatchResult("win");
                     if (currentToken) {
-                        axios.post(`${apiUrl}/api/users/record-match`, { isWin: true }, { headers: { Authorization: `Bearer ${currentToken}` } }).catch(console.error);
+                        axios.post(`${apiUrl}/api/users/record-match`, { isWin: true, opponentId }, { headers: { Authorization: `Bearer ${currentToken}` } }).catch(console.error);
                     }
                 } else {
                     setMatchResult("lose");
                     if (currentToken) {
-                        axios.post(`${apiUrl}/api/users/record-match`, { isWin: false }, { headers: { Authorization: `Bearer ${currentToken}` } }).catch(console.error);
+                        axios.post(`${apiUrl}/api/users/record-match`, { isWin: false, opponentId }, { headers: { Authorization: `Bearer ${currentToken}` } }).catch(console.error);
                     }
                 }
             } else if (data.type === "bothFinished") {
@@ -663,6 +678,7 @@ const Home: React.FC = () => {
                     ws={ws}
                     roomCode={roomCode}
                     serverStatus={serverStatus}
+                    userId={userId}
                 />
                 <Modal
                     show={showJoinModal}
@@ -671,6 +687,7 @@ const Home: React.FC = () => {
                     ws={ws}
                     roomCode={roomCode}
                     serverStatus={serverStatus}
+                    userId={userId}
                 />
 
                 <div>

@@ -99,6 +99,9 @@ wss.on('connection', (ws) => {
                 });
 
                 ws.roomCode = roomCode;
+                if (data.userId) {
+                    ws.userId = data.userId;
+                }
 
                 safeSend(ws, { type: 'roomCreated', roomCode, startingIndex });
                 safeSend(ws, { type: 'playerJoined', playerIndex: 0 });
@@ -111,15 +114,21 @@ wss.on('connection', (ws) => {
                 if (room && room.players.length < 2) {
                     room.players.push(ws);
                     ws.roomCode = roomCode;
+                    if (data.userId) {
+                        ws.userId = data.userId;
+                    }
 
                     safeSend(ws, {
                         type: 'joinedRoom',
                         roomCode: roomCode,
-                        startingIndex: room.currentIndex
+                        startingIndex: room.currentIndex,
+                        opponentId: room.players[0].userId // Host's userId
                     });
 
-                    // Notify all players in room that player 1 (guest) has joined
-                    broadcastToAll(room, { type: 'playerJoined', playerIndex: 1 });
+                    // Notify host that guest joined
+                    safeSend(room.players[0], { type: 'playerJoined', playerIndex: 1, opponentId: ws.userId });
+                    // Notify guest so they update their connection status (already sent joinedRoom, but keeping playerJoined for consistency)
+                    safeSend(ws, { type: 'playerJoined', playerIndex: 1 });
 
                     console.log(`Player joined room: ${roomCode}`);
                 } else {

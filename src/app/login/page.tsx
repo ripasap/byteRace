@@ -8,7 +8,7 @@ const LoginPage: React.FC = () => {
     return (
         <div className="relative flex items-center justify-center h-screen overflow-hidden bg-black text-white">
             <div className="absolute top-0 left-0 z-10">
-                <HomeButton />
+                <HomeButton forceDark={true} />
             </div>
             <LoginForm />
         </div>
