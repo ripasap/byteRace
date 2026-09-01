@@ -50,7 +50,13 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <button
                     style={{ ...buttonStyles, color: colors.text, backgroundColor: colors.buttonBackground }}
-                    onClick={() => window.location.href = '/rankings'}
+                    onClick={() => {
+                        if (!user) {
+                            alert("You must sign in first to view rankings.");
+                            return;
+                        }
+                        window.location.href = '/rankings';
+                    }}
                 >
                     <FontAwesomeIcon icon={faTrophy} /> Rankings
                 </button>

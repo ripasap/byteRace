@@ -23,8 +23,12 @@ const RankingsPage: React.FC = () => {
         const fetchLeaderboard = async () => {
             try {
                 const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = '/login';
+                    return;
+                }
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-                const headers = token ? { Authorization: `Bearer ${token}` } : {};
+                const headers = { Authorization: `Bearer ${token}` };
                 const res = await axios.get(`${apiUrl}/api/users/leaderboard/multiplayer`, { headers });
                 setMainLeaderboard(res.data);
             } catch (err: any) {
