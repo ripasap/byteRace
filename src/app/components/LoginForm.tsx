@@ -96,7 +96,7 @@ const LoginForm: React.FC = () => {
                     )}
                     <input
                         type="text"
-                        placeholder={isSignUp ? "Email" : "Username"}
+                        placeholder={isSignUp ? "Email" : "Email"}
                         className={`w-full p-3 hover:placeholder-gray-500 hover:bg-gray-900 duration-300 ease-in-out rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 ${fieldErrors.email ? "border-red-500" : "focus:ring-blue-500"
                             }`}
                         value={email}

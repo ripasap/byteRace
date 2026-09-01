@@ -154,7 +154,8 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
                     style={{
                         width: "50%",
                         textAlign: "center",
-                        color: mode === "single" ? colors.text : "#888",
+                        color: mode === "single" ? colors.text : (theme === 'ludicrous' ? "#ddd" : "#888"),
+                        fontWeight: mode !== "single" && theme === 'ludicrous' ? "bold" : "normal",
                         zIndex: 2,
                         fontSize: "14px",
                     }}
@@ -165,7 +166,8 @@ const Navbar: React.FC<NavbarProps> = ({ setShowJoinModal, setShowHostModal, mod
                     style={{
                         width: "50%",
                         textAlign: "center",
-                        color: mode === "multiplayer" ? colors.text : "#888",
+                        color: mode === "multiplayer" ? colors.text : (theme === 'ludicrous' ? "#ddd" : "#888"),
+                        fontWeight: mode !== "multiplayer" && theme === 'ludicrous' ? "bold" : "normal",
                         zIndex: 2,
                         fontSize: "14px",
                     }}

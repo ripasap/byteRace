@@ -62,22 +62,22 @@ const darkTheme: ThemeColors = {
 };
 
 const ludicrousTheme: ThemeColors = {
-    background: '#ff00ff',
-    text: '#00ffff',
-    buttonBackground: '#ffff00',
-    buttonTextRun: '#ff0000',
-    buttonTextSubmit: '#0000ff',
-    header: '#ff7f00',
-    cardBackground: '#00ff7f',
+    background: '#4B0082', // Indigo
+    text: '#00FF00', // Bright Green
+    buttonBackground: '#FF1493', // Deep Pink
+    buttonTextRun: '#FFFFFF', // White
+    buttonTextSubmit: '#FFFFFF', // White
+    header: '#FFD700', // Gold
+    cardBackground: '#8A2BE2', // Blue Violet
     powerUpModal: {
-        background: '#ff0ff0',
-        text: '#7ff000',
-        buttonBackground: '#00ff00',
-        buttonText: '#ff0000',
-        closeButton: '#00ff00',
-        closeButtonHover: '#ff00ff',
-        titleGradientStart: '#00ffff',
-        titleGradientEnd: '#ff0000',
+        background: '#4B0082',
+        text: '#00FF00',
+        buttonBackground: '#FF1493',
+        buttonText: '#FFFFFF',
+        closeButton: '#FF0000',
+        closeButtonHover: '#FF4500',
+        titleGradientStart: '#00FFFF',
+        titleGradientEnd: '#FF1493',
     },
 };
 

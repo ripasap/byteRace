@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import PowerUpModal from './PowerUpModal'; // Correct import for PowerUpModal component
 import Image from 'next/image';
 import FlashIcon from '../icons/FlashIcon';
-import { FaBullseye, FaCloudMoon } from 'react-icons/fa';
+import MushroomIcon from '../icons/MushroomIcon';
+import DamageIcon from '../icons/DamageIcon';
 import DeleteIcon from '../icons/DeleteIcon';
 import StopWatchIcon from '../icons/StopWatchIcon';
 import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
@@ -19,9 +20,9 @@ interface PowerUp {
 
 const powerUps: PowerUp[] = [
     { name: 'Flashbang', description: 'Blinds your opponent and disables input for 1.5 seconds.', icon: <FlashIcon style={{ width: '28px', height: '28px', display: 'block' }} />, color: '#ffffff', mode: 'multiplayer' },
-    { name: 'Critical Hit', description: "Take out a random line of opponent's code.", icon: <FaBullseye />, color: '#ffa500', mode: 'multiplayer' },
+    { name: 'Critical Hit', description: "Take out a random line of opponent's code.", icon: <DamageIcon style={{ width: '28px', height: '28px', display: 'block' }} />, color: '#ffa500', mode: 'multiplayer' },
     { name: 'Trash Talk', description: 'Send an annoying message popup to your opponent.', icon: <DeleteIcon />, color: '#00bfff', mode: 'multiplayer' },
-    { name: 'Bad Trip', description: 'Switch your opponent\'s theme to ludicrous mode.', icon: <FaCloudMoon />, color: '#8a2be2', mode: 'multiplayer' },
+    { name: 'Bad Trip', description: 'Switch your opponent\'s theme to ludicrous mode.', icon: <MushroomIcon style={{ width: '28px', height: '28px', display: 'block' }} />, color: '#8a2be2', mode: 'multiplayer' },
     { name: 'Async Await', description: 'Stops timer and prevents opponent from submitting for 30 seconds.', icon: <StopWatchIcon />, color: '#ffd700', mode: 'multiplayer' },
 ];
 
