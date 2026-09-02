@@ -16,7 +16,7 @@ ByteRace is a real-time, competitive coding platform where developers go head-to
   - **Bad Trip**: Forces your opponent's editor into the chaotic "Ludicrous" theme.
 - **AI Hints (Powered by Gemini)**: Stuck on a problem? Use the integrated Gemini AI to get intelligent, context-aware hints without giving away the full solution.
 - **Head-to-Head Rankings**: A dedicated multiplayer leaderboard that exclusively tracks your head-to-head win/loss record against specific opponents you've fought.
-- **Dynamic Theming**: Multiple themes (Dark, Light, and Ludicrous) with sleek UI and glassmorphism elements.
+- **Alternate Theming**: Multiple themes (Dark, Light, and Ludicrous).
 
 ## Tech Stack
 
